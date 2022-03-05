@@ -9,6 +9,7 @@ CREATE TABLE players (
     constraint username_length check (char_length(username) >= 3)
 );
 
+-- Security Policies;
 ALTER TABLE players ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY "Players can only view, insert, or update their own profile."

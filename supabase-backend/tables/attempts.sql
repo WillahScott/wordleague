@@ -26,4 +26,15 @@ CREATE TABLE attempts (
     num_red integer GENERATED ALWAYS AS (char_length(letters_red)) STORED,
 
     primary key (id),
-)
+);
+
+-- Security Policies;
+ALTER TABLE attempts ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Players can only view and insert their own attempts."
+    ON attempts for SELECT, INSERT, UPDATE
+    WITH CHECK ( auth.uid() = creator.id );
+
+CREATE POLICY "Nobody should be able to update attempts."
+    ON attempts for UPDATE
+    USING ( false );
