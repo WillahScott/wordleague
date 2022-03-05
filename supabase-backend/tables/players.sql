@@ -12,6 +12,14 @@ CREATE TABLE players (
 -- Security Policies;
 ALTER TABLE players ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "Players can only view, insert, or update their own profile."
-    ON players for SELECT, INSERT, UPDATE
+CREATE POLICY "Players can only view their own profile."
+    ON players for SELECT
+    USING ( auth.uid() = id );
+
+CREATE POLICY "Players can only insert their own profile."
+    ON players for INSERT
+    WITH CHECK ( auth.uid() = id );
+
+CREATE POLICY "Players can only update their own profile."
+    ON players for UPDATE
     WITH CHECK ( auth.uid() = id );

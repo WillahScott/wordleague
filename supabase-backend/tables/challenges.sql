@@ -1,9 +1,9 @@
 CREATE TABLE challenges (
     id uuid not null,
-    league references leagues not null,
-    creator references players not null,
+    league uuid references public.leagues not null,
+    creator uuid references public.players not null,
     challenge_date timestamp with time zone,
-    word text not null
+    word text not null,
     word_length integer GENERATED ALWAYS AS (char_length(word)) STORED,
     language text,
 
@@ -12,8 +12,8 @@ CREATE TABLE challenges (
 );
 
 -- Security Policies;
-ALTER TABLE players ENABLE ROW LEVEL SECURITY;
+ALTER TABLE challenges ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "Players can only view, insert, or update their own challenges."
-    ON players for SELECT, INSERT, UPDATE
-    WITH CHECK ( auth.uid() = creator.id );
+CREATE POLICY "Players can create, view, update, and delete their own challenges."
+    ON challenges for ALL
+    WITH CHECK ( auth.uid() = creator );
