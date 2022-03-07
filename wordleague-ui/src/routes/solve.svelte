@@ -1,5 +1,5 @@
 <script>
-	let locked = false;
+	let solved = false;
 	let solution = 'LOVES';
 
 	let maxAttempts = 6;
@@ -18,7 +18,7 @@
 	}
 
 	function handleKeydown(event) {
-		if (locked) {
+		if (solved) {
 			console.log('dude, you got it already!');
 			return;
 		}
@@ -28,7 +28,7 @@
 			if (candidate.length === solution.length) {
 				pastAttempts = [...pastAttempts, candidate.toUpperCase()];
 				if (solution.toUpperCase() === candidate.toUpperCase()) {
-					locked = true;
+					solved = true;
 				}
 				candidate = '';
 			}
@@ -77,23 +77,25 @@
 			{/each}
 			{#each Array(maxAttempts - pastAttempts.length) as _b, j}
 				<div key={j} class="relative grid grid-cols-5 gap-3 mt-3 opacity-20">
-					{#if j === 0}
+					{#if !solved && j === 0}
 						<p class="absolute h-full -left-10 font-serif text-slate-700 flex items-center">
 							&rarr;
 						</p>
 					{/if}
-					{#each Array(solution.length) as char, c}
-						<div
-							class="bg-slate-600 border border-slate-800 text-center text-4xl uppercase font-bold w-14 h-14 flex justify-center items-center"
-						>
-							{''}
-						</div>
-					{/each}
+					{#if !solved}
+						{#each Array(solution.length) as char, c}
+							<div
+								class="bg-slate-600 border border-slate-800 text-center text-4xl uppercase font-bold w-14 h-14 flex justify-center items-center"
+							>
+								{''}
+							</div>
+						{/each}
+					{/if}
 				</div>
 			{/each}
 		</div>
 
-		<div id="candidate" class="p-3 border-t border-t-slate-400 grid grid-cols-5 gap-3" class:locked>
+		<div id="candidate" class="p-3 border-t border-t-slate-400 grid grid-cols-5 gap-3" class:solved>
 			{#each candidate as c, ci}
 				<div
 					key={ci}
@@ -128,7 +130,7 @@
 		background-color: #333;
 		color: #999;
 	}
-    .locked {
-        display: none;
-    }
+	.solved {
+		display: none;
+	}
 </style>

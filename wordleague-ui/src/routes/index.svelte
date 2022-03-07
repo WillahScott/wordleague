@@ -5,7 +5,9 @@
 		>
 	</h1>
 
-	<div class="flex flex-col items-center justify-around text-2xl text-purple-900 font-mono font-bold md:font-normal">
+	<div
+		class="flex flex-col items-center justify-around text-2xl text-purple-900 font-mono font-bold md:font-normal"
+	>
 		<p
 			class="px-5 py-1 my-2 rounded-sm bg-pink-400 hover:bg-purple-700 hover:text-purple-200 hover:cursor-pointer"
 		>
