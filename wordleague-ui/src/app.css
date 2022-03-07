@@ -1,3 +1,24 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* COLOR PALETTES: 
+
+black dark blue, orange, and whites
+https://coolors.co/000000-14213d-fca311-e5e5e5-ffffff
+
+solid colors
+https://coolors.co/f46036-2e294e-1b998b-e71d36-c5d86d
+
+purples and oranges
+https://coolors.co/3d348b-7678ed-f7b801-f18701-f35b04
+
+all purples
+https://coolors.co/ea7af4-b43e8f-6200b3-3b0086-290628
+
+seashell color: #FFF3F0
+*/
+
+/* html, body {
+    background-color: #FFF3F0;
+} */
