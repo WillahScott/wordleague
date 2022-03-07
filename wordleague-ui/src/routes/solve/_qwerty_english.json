@@ -1,0 +1,32 @@
+[
+    {"row": 0, "char": "q"},
+    {"row": 0, "char": "w"},
+    {"row": 0, "char": "e"},
+    {"row": 0, "char": "r"},
+    {"row": 0, "char": "t"},
+    {"row": 0, "char": "y"},
+    {"row": 0, "char": "u"},
+    {"row": 0, "char": "i"},
+    {"row": 0, "char": "o"},
+    {"row": 0, "char": "p"},
+
+    {"row": 1, "char": "a"},
+    {"row": 1, "char": "s"},
+    {"row": 1, "char": "d"},
+    {"row": 1, "char": "f"},
+    {"row": 1, "char": "g"},
+    {"row": 1, "char": "h"},
+    {"row": 1, "char": "j"},
+    {"row": 1, "char": "k"},
+    {"row": 1, "char": "l"},
+
+    {"row": 2, "char": "del"},
+    {"row": 2, "char": "z"},
+    {"row": 2, "char": "x"},
+    {"row": 2, "char": "c"},
+    {"row": 2, "char": "v"},
+    {"row": 2, "char": "b"},
+    {"row": 2, "char": "n"},
+    {"row": 2, "char": "m"},
+    {"row": 2, "char": "GO"}
+]

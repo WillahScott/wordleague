@@ -1,29 +1,42 @@
 <script>
+	import Keyboard from './_keyboard.svelte';
+
 	let solved = false;
 	let showKeyboard = true;
+	let easyMode = false;
 
 	let solution = 'LOVES';
 	let maxAttempts = 6;
 	let pastAttempts = ['HEATS'];
 	let candidate = '';
 
+	let charsYay = new Set([]);
+	let charsAlmost = new Set([]);
+	let charsNope = new Set([]);
+
 	function evalChar(pos, char) {
 		if (char === solution[pos]) {
+			charsYay.add(char);
+			charsYay = charsYay;  // trigger reactivity
 			return 'charYay';
 		} else if (solution.indexOf(char) > -1) {
+			charsAlmost.add(char);
+			charsAlmost = charsAlmost;  // trigger reactivity
 			return 'charAlmost';
 		} else {
+			charsNope.add(char);
+			charsNope = charsNope;  // trigger reactivity
 			return 'charNope';
 		}
 	}
 
-	function handleKeydown(event) {
+	function updateCandidate(newChar) {
 		if (solved) {
 			console.log('dude, you got it already!');
 			return;
 		}
 
-		if (event.key === 'Enter') {
+		if (['ENTER', 'GO'].indexOf(newChar) > -1) {
 			// handle submit
 			if (candidate.length === solution.length) {
 				pastAttempts = [...pastAttempts, candidate.toUpperCase()];
@@ -32,14 +45,24 @@
 				}
 				candidate = '';
 			}
-		} else if (event.key === 'Backspace') {
+		} else if (['BACKSPACE', 'DEL'].indexOf(newChar) > -1) {
 			// handle delete
 			candidate = candidate.slice(0, -1);
 		} else {
 			if (candidate.length < solution.length) {
-				candidate += event.key;
+				if (easyMode && charsNope.has(newChar)) {
+					return;
+				}
+				candidate += newChar;
 			}
 		}
+	}
+
+	function handleKeydown(event) {
+		updateCandidate(event.key.toUpperCase());
+	}
+	function handleCustomKeydown(event) {
+		updateCandidate(event.detail.char);
 	}
 </script>
 
@@ -114,7 +137,15 @@
 			{/each}
 		</div>
 	</div>
-	<div id="keyPad" />
+	{#if !solved && showKeyboard}
+		<Keyboard
+			on:keydown={handleKeydown}
+			on:customKey={handleCustomKeydown}
+			{charsYay}
+			{charsAlmost}
+			{charsNope}
+		/>
+	{/if}
 </div>
 
 <style>
