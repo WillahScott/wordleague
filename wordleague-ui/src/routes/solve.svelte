@@ -1,10 +1,10 @@
 <script>
 	let solved = false;
-	let solution = 'LOVES';
+	let showKeyboard = true;
 
+	let solution = 'LOVES';
 	let maxAttempts = 6;
 	let pastAttempts = ['HEATS'];
-
 	let candidate = '';
 
 	function evalChar(pos, char) {
@@ -47,16 +47,16 @@
 
 <div class="py-10 relative h-screen flex flex-col items-center md:justify-center">
 	<a href="/">
-		<h1 class="text-center text-4xl md:text-6xl font-bold text-purple-800 mb-4">
-			<span class="border px-0.5 py-0 m-0 border-purple-900 bg-purple-700 text-purple-200"
-				>WordLeague</span
-			>
+		<h1
+			class="text-center text-4xl font-bold mb-4 px-1 py-0 m-0 border-2 border-[#B43E8F] bg-[#14213D] "
+		>
+			<span class="text-[#B43E8F]">Word</span><span class="text-purple-300">League</span>
 		</h1>
 	</a>
 
-	<h3 class="text-center text-2xl font-bold font-mono text-purple-800 mb-4">Solve Challenges:</h3>
+	<h3 class="text-center text-2xl font-bold font-mono text-[#B43E8F] mb-4">Solve Challenges:</h3>
 
-	<div id="solvingPad" class="bg-slate-700 flex flex-col">
+	<div id="solvingPad" class="bg-[#14213D] flex flex-col">
 		<div id="attempts" class="p-3 font-sans font-extrabold">
 			{#each pastAttempts as attempt, i}
 				<div key={i} class="relative grid grid-cols-5 gap-3 mb-3">
@@ -119,11 +119,11 @@
 
 <style>
 	.charYay {
-		background-color: #4caf50;
+		background-color: #1b998b;
 		color: #fff;
 	}
 	.charAlmost {
-		background-color: #ff9800;
+		background-color: #f46036;
 		color: #fff;
 	}
 	.charNope {

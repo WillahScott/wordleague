@@ -19,6 +19,7 @@ https://coolors.co/ea7af4-b43e8f-6200b3-3b0086-290628
 seashell color: #FFF3F0
 */
 
-/* html, body {
-    background-color: #FFF3F0;
-} */
+html, body {
+    /* background-color: #FFF3F0; */
+    background-color: #2E294E;
+}
