@@ -1,5 +1,5 @@
 <script>
-	import { challengeList } from '$lib/stores/challenges';
+	import { challengeList } from '$lib/stores/challengeList';
 </script>
 
 <div class="py-10 relative h-screen flex flex-col items-center md:justify-center">
