@@ -1,5 +1,7 @@
 <script>
+	import { page } from '$app/stores';
 	import Keyboard from './_keyboard.svelte';
+	let challengeID = $page.url.searchParams.get('challenge');
 
 	let solved = false;
 	let showKeyboard = true;
@@ -17,15 +19,15 @@
 	function evalChar(pos, char) {
 		if (char === solution[pos]) {
 			charsYay.add(char);
-			charsYay = charsYay;  // trigger reactivity
+			charsYay = charsYay; // trigger reactivity
 			return 'charYay';
 		} else if (solution.indexOf(char) > -1) {
 			charsAlmost.add(char);
-			charsAlmost = charsAlmost;  // trigger reactivity
+			charsAlmost = charsAlmost; // trigger reactivity
 			return 'charAlmost';
 		} else {
 			charsNope.add(char);
-			charsNope = charsNope;  // trigger reactivity
+			charsNope = charsNope; // trigger reactivity
 			return 'charNope';
 		}
 	}
@@ -78,6 +80,12 @@
 	</a>
 
 	<h3 class="text-center text-2xl font-bold font-mono text-[#B43E8F] mb-4">Solve Challenges:</h3>
+
+	{#if challengeID}
+		<h4 class="text-center text-xl font-bold font-serif text-[#B43E8F] mb-4">
+			Challenge ID: {challengeID}
+		</h4>
+	{/if}
 
 	<div id="solvingPad" class="bg-[#14213D] flex flex-col">
 		<div id="attempts" class="p-3 font-sans font-extrabold">
