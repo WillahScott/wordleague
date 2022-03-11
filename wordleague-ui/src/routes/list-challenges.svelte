@@ -1,12 +1,5 @@
 <script>
-	import { onMount } from 'svelte';
 	import { challengeList } from '$lib/stores/challenges';
-
-	// onMount(async () => {
-	// 	console.log("...loading")
-	// 	await challengeList.load();
-
-	// });
 </script>
 
 <div class="py-10 relative h-screen flex flex-col items-center md:justify-center">
