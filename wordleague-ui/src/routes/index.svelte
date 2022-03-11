@@ -16,6 +16,11 @@
 		<p
 			class="px-5 py-1 my-2 rounded-sm bg-pink-400 hover:bg-purple-700 hover:text-purple-200 hover:cursor-pointer"
 		>
+			<a href="/list-challenges">View All Challenges</a>
+		</p>
+		<p
+			class="px-5 py-1 my-2 rounded-sm bg-pink-400 hover:bg-purple-700 hover:text-purple-200 hover:cursor-pointer"
+		>
 			<a href="/set-challenges">Set Challenges for others</a>
 		</p>
 		<p
