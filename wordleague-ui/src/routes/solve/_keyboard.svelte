@@ -15,7 +15,7 @@
 	export let charsNope = new Set();
 </script>
 
-<div id="keyboard" class="md:max-w-4xl w-full h-full flex flex-col mt-6">
+<div id="keyboard" class="md:max-w-4xl w-full h-full flex flex-col justify-end mt-6 mb-10">
 	{#each [...Array(numRows).keys()] as r}
 		<div key={r} class="px-2 my-2 flex flex-row gap-3 h-12">
 			{#each LAYOUT.filter((c) => c.row === r) as k}

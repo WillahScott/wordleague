@@ -1,20 +1,38 @@
 <script>
+	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
+	import { challenge } from '$lib/stores/challenge';
+
 	import Keyboard from './_keyboard.svelte';
 	let challengeID = $page.url.searchParams.get('challenge');
+
+	const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
 	let solved = false;
 	let showKeyboard = true;
 	let easyMode = false;
 
-	let solution = 'LOVES';
 	let maxAttempts = 6;
-	let pastAttempts = ['HEATS'];
 	let candidate = '';
-
 	let charsYay = new Set([]);
 	let charsAlmost = new Set([]);
 	let charsNope = new Set([]);
+
+	let solution = 'LOVES';
+	let pastAttempts = [];
+
+	onMount(async () => {
+		if (challengeID) {
+			console.log(`Loading challenge #: ${challengeID}`);
+			await challenge.load(challengeID);
+
+			solution = $challenge.word;
+
+			charsYay = new Set([]);
+			charsAlmost = new Set([]);
+			charsNope = new Set([]);
+		}
+	});
 
 	function evalChar(pos, char) {
 		if (char === solution[pos]) {
@@ -52,10 +70,12 @@
 			candidate = candidate.slice(0, -1);
 		} else {
 			if (candidate.length < solution.length) {
-				if (easyMode && charsNope.has(newChar)) {
-					return;
+				if (ALPHABET.indexOf(newChar) > -1) {
+					if (easyMode && charsNope.has(newChar)) {
+						return;
+					}
+					candidate += newChar;
 				}
-				candidate += newChar;
 			}
 		}
 	}
@@ -79,15 +99,15 @@
 		</h1>
 	</a>
 
-	<h3 class="text-center text-2xl font-bold font-mono text-[#B43E8F] mb-4">Solve Challenges:</h3>
+	<!-- <h3 class="text-center text-2xl font-bold font-mono text-[#B43E8F] mb-4">Solve Challenges:</h3> -->
 
-	{#if challengeID}
-		<h4 class="text-center text-xl font-bold font-serif text-[#B43E8F] mb-4">
+	<!-- {#if challengeID}
+		<h4 class="text-center text-sm font-bold font-serif text-[#B43E8F] mb-4">
 			Challenge ID: {challengeID}
 		</h4>
-	{/if}
+	{/if} -->
 
-	<div id="solvingPad" class="bg-[#14213D] flex flex-col">
+	<div id="solvingPad" class="bg-[#14213D] flex flex-col mt-6">
 		<div id="attempts" class="p-3 font-sans font-extrabold">
 			{#each pastAttempts as attempt, i}
 				<div key={i} class="relative grid grid-cols-5 gap-3 mb-3">
