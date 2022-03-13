@@ -12,14 +12,13 @@
 			{index}
 		</div>
 	{/if}
-	<div class={`flex-grow grid gap-3 mb-3`} style={`grid-template-columns: repeat(${numCols}, 1fr);`}>
+	<div class={`flex-grow grid gap-2 md:gap-3 mb-2 md:mb-3`} style={`grid-template-columns: repeat(${numCols}, 1fr);`}>
 		{#each Array(numCols) as _c, c}
 			<div
-				class="col-span-1 border border-slate-800 text-center text-4xl uppercase font-bold w-14 h-14 flex justify-center items-center"
+				class="col-span-1 border-2 border-slate-700 text-center text-4xl uppercase font-bold w-14 h-14 flex justify-center items-center"
                 class:charYay={feedback[c] === 'Y'}
                 class:charAlmost={feedback[c] === 'A'}
                 class:charNope={feedback[c] === 'N'}
-                class:attempt={!isCandidate && feedback[c] === null}
                 class:candidate={isCandidate}
 			>
 				{word[c] || ""}
@@ -28,12 +27,6 @@
 	</div>
 </div>
 
-
-<!-- Attempt class -->
-<!-- bg-slate-600 border border-slate-800 text-center text-4xl uppercase font-bold w-14 h-14 flex justify-center items-center -->
-
-<!-- Candidate class -->
-<!-- bg-slate-600 border border-slate-800 text-slate-300 text-center text-4xl uppercase font-bold w-14 h-14 flex justify-center items-center -->
 
 
 <style>
@@ -49,11 +42,8 @@
 		background-color: #333;
 		color: #999;
 	}
-    .attempt {
-        background-color: #475569; /* bg-slate-600 */
-        color: #CBD5E1; /* text-slate-300 */
-    }
     .candidate {
+        border: none;
         background-color: #475569; /* bg-slate-600 */
         color: #CBD5E1; /* text-slate-300 */
     }
