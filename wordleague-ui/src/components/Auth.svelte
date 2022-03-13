@@ -34,10 +34,8 @@
 				Create your own word-guessing league and challenge your friends!
 			</p>
 		</div>
-		<div class="flex flex-col py-14 px-8 w-full">
-			<p class="text-2xl text-purple-600 font-mono">
-				Returning users
-			</p>
+		<div class="flex flex-col py-16 px-8 w-full">
+			<p class="text-2xl text-purple-600 font-mono">Returning users</p>
 			<form class="my-6 flex flex-col justify-center" on:submit|preventDefault={handleLogin}>
 				<div class="flex flex-col text-sm mb-2">
 					<input
@@ -57,10 +55,8 @@
 			</form>
 		</div>
 
-		<div class="mb-10 flex flex-col py-14 px-8 w-full">
-			<p class="text-2xl text-purple-600 font-mono">
-				Create your own league and challenge your friends!
-			</p>
+		<div class="mb-10 flex flex-col py-16 px-8 w-full">
+			<p class="text-2xl text-purple-600 font-mono">New users</p>
 			<form
 				class="my-6 flex flex-col justify-center"
 				on:submit|preventDefault={handleCreateAccount}
