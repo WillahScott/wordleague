@@ -32,7 +32,7 @@
 			console.log(`Loading random challenge`);
 			await challenge.loadRandom();
 		}
-		solution = $challenge.word;
+		solution = $challenge.word.toUpperCase();
 		loading = false;
 
 		charsYay = new Set([]);
