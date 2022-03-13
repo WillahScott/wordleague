@@ -1,5 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
+	import confetti from 'canvas-confetti';
 	import { page } from '$app/stores';
 	import { challenge } from '$lib/stores/challenge';
 
@@ -20,7 +21,7 @@
 	let charsNope = new Set([]);
 
 	let loading = true;
-	let solution = 'LOVES';
+	let solution = '';
 	let pastAttempts = [];
 
 	onMount(async () => {
@@ -67,6 +68,31 @@
 				pastAttempts = [...pastAttempts, candidate.toUpperCase()];
 				if (solution.toUpperCase() === candidate.toUpperCase()) {
 					solved = true;
+					confetti({
+						particleCount: 25,
+						spread: 26,
+						startVelocity: 55,
+						origin: { y: 0.6 },
+						disableForReducedMotion: true,
+						colors: ["#D8B4FE", "#B43E8F", "#14213D"],
+					});
+					confetti({
+						particleCount: 20,
+						spread: 60,
+						origin: { y: 0.6 },
+						disableForReducedMotion: true,
+						colors: ["#D8B4FE", "#B43E8F", "#14213D"],
+					});
+					confetti({
+						particleCount: 35,
+						spread: 100,
+						decay: 0.91,
+						scalar: 0.8,
+						origin: { y: 0.6 },
+						disableForReducedMotion: true,
+						colors: ["#D8B4FE", "#B43E8F", "#14213D"],
+					});
+
 				}
 				candidate = '';
 			}
@@ -95,7 +121,7 @@
 
 <svelte:window on:keydown={handleKeydown} />
 
-<div class="py-10 relative min-h-screen flex flex-col items-center md:justify-center">
+<div class="py-10 relative min-h-screen flex flex-col items-center">
 	<a href="/">
 		<h1
 			class="text-center text-4xl font-bold mb-4 px-1 py-0 m-0 border-2 border-[#B43E8F] bg-[#14213D] "
@@ -104,16 +130,8 @@
 		</h1>
 	</a>
 
-	<h3 class="text-center text-2xl font-bold font-mono text-[#B43E8F] mb-4">Solve Challenges:</h3>
-
-	{#if challengeID}
-		<h4 class="text-center text-sm font-bold font-serif text-[#B43E8F] mb-4">
-			Challenge ID: {challengeID}
-		</h4>
-	{/if}
-
 	{#if loading}
-		<p>Loading challenge...</p>
+		<p class="text-[#B43E8F] text-2xl font-serif py-20">Loading challenge...</p>
 	{:else}
 		<div id="solvingPad" class="bg-[#14213D] flex flex-col mt-6">
 			<div id="attempts" class="p-3 font-sans font-extrabold">
@@ -121,14 +139,14 @@
 					<Row
 						index={i + 1}
 						word={attempt}
-						feedback={attempt.split("").map((c, i) => evalChar(i, c))}
+						feedback={attempt.split('').map((c, i) => evalChar(i, c))}
 						numCols={solution.length}
 					/>
 				{/each}
 				{#each Array(maxAttempts - pastAttempts.length) as _b, j}
 					{#if !solved && j === 0}
 						<Row index="&rarr" numCols={solution.length} />
-					{:else}
+					{:else if !solved}
 						<Row numCols={solution.length} />
 					{/if}
 				{/each}
