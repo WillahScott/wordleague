@@ -1,6 +1,6 @@
 <script>
 	import { supabase } from '$lib/supabase';
-    import Logo from "./Logo.svelte";
+	import Logo from './Logo.svelte';
 
 	let loading = false;
 	let email;
@@ -28,20 +28,16 @@
 		Welcome to <Logo />
 	</h1>
 
-	<div class="flex-grow flex flex-col items-center justify-between text-2xl text-purple-900">
+	<div class="flex-grow flex flex-col items-center text-2xl text-purple-900">
 		<div class="flex flex-col items-center justify-around pt-2 pb-2 px-8 ">
-			<p class="text-center text-3xl font-mono text-purple-600 mb-8">Public League</p>
-			<p
-				class="px-5 py-1 my-2 rounded-sm bg-pink-400 hover:bg-purple-700 hover:text-purple-200 hover:cursor-pointer font-mono font-bold md:font-normal"
-			>
-				<a href="/solve">Solve A Random Challenge</a>
-			</p>
-			<p class="italic text-pink-400 text-lg font-mono">
-				<span class="font-serif">*</span> from the public league
+			<p class="text-2xl font-mono text-pink-400 mb-8">
+				Create your own word-guessing league and challenge your friends!
 			</p>
 		</div>
-		<div class="mt-10 flex flex-col pt-10 px-8 border-t border-t-purple-400 w-full">
-			<p class="text-center text-3xl font-mono text-purple-600">Returning users</p>
+		<div class="flex flex-col py-14 px-8 w-full">
+			<p class="text-2xl text-purple-600 font-mono">
+				Returning users
+			</p>
 			<form class="my-6 flex flex-col justify-center" on:submit|preventDefault={handleLogin}>
 				<div class="flex flex-col text-sm mb-2">
 					<input
@@ -61,12 +57,14 @@
 			</form>
 		</div>
 
-		<div class="mt-10 flex flex-col pt-10 px-8 border-t border-t-purple-400 w-full">
-			<p class="text-center text-3xl font-mono text-purple-600 mb-5">New users</p>
-			<p class="text-xl font-bold text-purple-600 font-mono">
+		<div class="mb-10 flex flex-col py-14 px-8 w-full">
+			<p class="text-2xl text-purple-600 font-mono">
 				Create your own league and challenge your friends!
 			</p>
-			<form class="my-6 flex flex-col justify-center" on:submit|preventDefault={handleCreateAccount}>
+			<form
+				class="my-6 flex flex-col justify-center"
+				on:submit|preventDefault={handleCreateAccount}
+			>
 				<button
 					type="submit"
 					class="w-full rounded bg-purple-500 text-purple-900 text-xl uppercase font-mono font-bold py-2 px-10"
