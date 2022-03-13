@@ -3,6 +3,7 @@
 	import { page } from '$app/stores';
 	import { challenge } from '$lib/stores/challenge';
 
+	import Row from './_row.svelte';
 	import Keyboard from './_keyboard.svelte';
 	let challengeID = $page.url.searchParams.get('challenge');
 
@@ -18,6 +19,7 @@
 	let charsAlmost = new Set([]);
 	let charsNope = new Set([]);
 
+	let loading = true;
 	let solution = 'LOVES';
 	let pastAttempts = [];
 
@@ -25,28 +27,31 @@
 		if (challengeID) {
 			console.log(`Loading challenge #: ${challengeID}`);
 			await challenge.load(challengeID);
-
-			solution = $challenge.word;
-
-			charsYay = new Set([]);
-			charsAlmost = new Set([]);
-			charsNope = new Set([]);
+		} else {
+			console.log(`Loading random challenge`);
+			await challenge.loadRandom();
 		}
+		solution = $challenge.word;
+		loading = false;
+
+		charsYay = new Set([]);
+		charsAlmost = new Set([]);
+		charsNope = new Set([]);
 	});
 
 	function evalChar(pos, char) {
 		if (char === solution[pos]) {
 			charsYay.add(char);
 			charsYay = charsYay; // trigger reactivity
-			return 'charYay';
+			return 'Y';
 		} else if (solution.indexOf(char) > -1) {
 			charsAlmost.add(char);
 			charsAlmost = charsAlmost; // trigger reactivity
-			return 'charAlmost';
+			return 'A';
 		} else {
 			charsNope.add(char);
 			charsNope = charsNope; // trigger reactivity
-			return 'charNope';
+			return 'N';
 		}
 	}
 
@@ -90,7 +95,7 @@
 
 <svelte:window on:keydown={handleKeydown} />
 
-<div class="py-10 relative h-screen flex flex-col items-center md:justify-center">
+<div class="py-10 relative min-h-screen flex flex-col items-center md:justify-center">
 	<a href="/">
 		<h1
 			class="text-center text-4xl font-bold mb-4 px-1 py-0 m-0 border-2 border-[#B43E8F] bg-[#14213D] "
@@ -99,72 +104,46 @@
 		</h1>
 	</a>
 
-	<!-- <h3 class="text-center text-2xl font-bold font-mono text-[#B43E8F] mb-4">Solve Challenges:</h3> -->
+	<h3 class="text-center text-2xl font-bold font-mono text-[#B43E8F] mb-4">Solve Challenges:</h3>
 
-	<!-- {#if challengeID}
+	{#if challengeID}
 		<h4 class="text-center text-sm font-bold font-serif text-[#B43E8F] mb-4">
 			Challenge ID: {challengeID}
 		</h4>
-	{/if} -->
+	{/if}
 
-	<div id="solvingPad" class="bg-[#14213D] flex flex-col mt-6">
-		<div id="attempts" class="p-3 font-sans font-extrabold">
-			{#each pastAttempts as attempt, i}
-				<div key={i} class="relative grid grid-cols-5 gap-3 mb-3">
-					<p class="absolute h-full -left-10 font-serif text-slate-700 flex items-center">
-						#{i + 1}
-					</p>
-					{#each attempt as char, c}
-						<div
-							class={`${evalChar(
-								c,
-								char
-							)} border border-slate-800 text-center text-4xl uppercase font-bold w-14 h-14 flex justify-center items-center`}
-						>
-							{char}
-						</div>
-					{/each}
-				</div>
-			{/each}
-			{#each Array(maxAttempts - pastAttempts.length) as _b, j}
-				<div key={j} class="relative grid grid-cols-5 gap-3 mt-3 opacity-20">
+	{#if loading}
+		<p>Loading challenge...</p>
+	{:else}
+		<div id="solvingPad" class="bg-[#14213D] flex flex-col mt-6">
+			<div id="attempts" class="p-3 font-sans font-extrabold">
+				{#each pastAttempts as attempt, i}
+					<Row
+						index={i + 1}
+						word={attempt}
+						feedback={attempt.split("").map((c, i) => evalChar(i, c))}
+						numCols={solution.length}
+					/>
+				{/each}
+				{#each Array(maxAttempts - pastAttempts.length) as _b, j}
 					{#if !solved && j === 0}
-						<p class="absolute h-full -left-10 font-serif text-slate-700 flex items-center">
-							&rarr;
-						</p>
+						<Row index="&rarr" numCols={solution.length} />
+					{:else}
+						<Row numCols={solution.length} />
 					{/if}
-					{#if !solved}
-						{#each Array(solution.length) as char, c}
-							<div
-								class="bg-slate-600 border border-slate-800 text-center text-4xl uppercase font-bold w-14 h-14 flex justify-center items-center"
-							>
-								{''}
-							</div>
-						{/each}
-					{/if}
-				</div>
-			{/each}
-		</div>
+				{/each}
+			</div>
 
-		<div id="candidate" class="p-3 border-t border-t-slate-400 grid grid-cols-5 gap-3" class:solved>
-			{#each candidate as c, ci}
-				<div
-					key={ci}
-					class="bg-slate-600 border border-slate-800 text-slate-300 text-center text-4xl uppercase font-bold w-14 h-14 flex justify-center items-center"
-				>
-					{c}
-				</div>
-			{/each}
-			{#each Array(solution.length - candidate.length) as k}
-				<div
-					key={k}
-					class="bg-slate-600 border border-slate-800 text-center text-4xl uppercase font-bold w-14 h-14 flex justify-center items-center"
-				>
-					{' '}
-				</div>
-			{/each}
+			<div
+				id="candidate"
+				class={`p-3 border-t border-t-slate-400 grid grid-cols-w${solution.length} gap-3`}
+				class:solved
+			>
+				<Row numCols={solution.length} word={candidate} isCandidate={true} />
+			</div>
 		</div>
-	</div>
+	{/if}
+
 	{#if !solved && showKeyboard}
 		<Keyboard
 			on:keydown={handleKeydown}
