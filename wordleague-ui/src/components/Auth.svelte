@@ -10,26 +10,59 @@
 	let email;
 	let password;
 
-	const handleLogin = async () => {
+	const handleEmailLogin = async () => {
 		try {
 			loading = true;
-			const { error } = await supabase.auth.login({
-				email: email
-				// password: document.getElementById("password").value
+			const { user, session, error } = await supabase.auth.signIn({
+				email: email,
+				password: password
 			});
 			if (error) throw error;
 		} catch (error) {
 			console.error(error.error_description || error.message);
 		} finally {
-			alert('check your email!');
+			alert('welcome back...');
 		}
 	};
+
+	// const handleProviderLogin = async (provider) => {
+	// 	try {
+	// 		loading = true;
+	// 		const { user, session, error } = await supabase.auth.signIn({provider: provider});
+	// 		if (error) throw error;
+	// 	} catch (error) {
+	// 		console.error(error.error_description || error.message);
+	// 	} finally {
+	// 		alert('login in...');
+	// 	}
+	// };
 
 	const initCreateAccount = () => {
 		footerRef.scrollIntoView({ behavior: 'smooth', block: 'end' });
 	};
 
-	const handleCreateAccount = async () => {};
+	const handleCreateEmailAccount = async () => {
+		try {
+			loading = true;
+			const { error } = await supabase.auth.signUp(
+				{
+					email: email,
+					password: password
+				},
+				{
+					data: {
+						username: username
+						// potential info about league invites
+					}
+				}
+			);
+			if (error) throw error;
+		} catch (error) {
+			console.error(error.error_description || error.message);
+		} finally {
+			alert(`Welcome #{username}!`);
+		}
+	};
 </script>
 
 <div class="py-10 relative min-h-screen flex flex-col items-center md:justify-center">
@@ -52,15 +85,15 @@
 				>
 					Sign In
 				</p>
-				<div
+				<!-- <div
 					class="mt-5 self-center max-w-2xl w-full flex flex-col md:flex-row justify-between items-center"
 				>
 					<GoogleSignIn width={'50px'} height={'50px'} />
 					<AppleSignIn width={'50px'} height={'50px'} />
-				</div>
+				</div> -->
 				<form
 					class="my-6 flex flex-col justify-center md:max-w-xl md:w-full md:self-center"
-					on:submit|preventDefault={handleLogin}
+					on:submit|preventDefault={handleEmailLogin}
 				>
 					<div class="flex flex-col text-sm mb-1">
 						<input
@@ -100,15 +133,14 @@
 			</div>
 		{:else}
 			<div class="flex flex-col my-16 px-8 w-full">
-				<div
-					class="relative flex flex-col py-8 px-6 w-full border-2 border-pink-400 rounded-3xl"
-				>
+				<div class="relative flex flex-col py-8 px-6 w-full border-2 border-pink-400 rounded-3xl">
 					<p
 						class="text-xl text-pink-400 font-mono self-center absolute -top-3.5 bg-[#2E294E] px-4 rounded-md uppercase"
 					>
 						Create Account
 					</p>
 					<div class="flex flex-col items-center w-full pb-4">
+						<!-- 
 						<p class="mb-2 text-base md:text-lg text-pink-400 font-mono">
 							You can choose to sign up using one of the following providers...
 						</p>
@@ -121,10 +153,14 @@
 						<p class="mt-8 text-base md:text-lg text-pink-400 font-mono">
 							...or create an account with your username, email, and password:
 						</p>
+						-->
+						<p class="mt-2 text-base md:text-lg text-pink-400 font-mono">
+							Create an account with your username, email, and password:
+						</p>
 
 						<form
 							class="mt-2 flex flex-col justify-center md:max-w-xl md:w-full md:self-center"
-							on:submit|preventDefault={handleCreateAccount}
+							on:submit|preventDefault={handleCreateEmailAccount}
 						>
 							<div class="flex flex-col">
 								<div class="flex flex-col text-sm mb-1 mt-2">
