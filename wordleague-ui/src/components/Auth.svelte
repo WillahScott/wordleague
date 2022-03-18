@@ -4,10 +4,10 @@
 	import AppleSignIn from './signin/AppleSignin.svelte';
 	import GoogleSignIn from './signin/GoogleSignin.svelte';
 
+	export let footerRef;
 	let showSignUp = false;
 	let email;
 	let password;
-	let signinSection;
 
 	const handleLogin = async () => {
 		try {
@@ -24,15 +24,14 @@
 		}
 	};
 
-	const goToSignUp = () => {
-		showSignUp = true;
-		signinSection.scrollTop({ behavior: 'smooth', block: 'end' });
+	const initCreateAccount = () => {
+		footerRef.scrollIntoView({ behavior: 'smooth', block: 'end' });
 	};
 
 	const handleCreateAccount = async () => {};
 </script>
 
-<div class="py-10 relative h-screen flex flex-col items-center md:justify-center">
+<div class="py-10 relative min-h-screen flex flex-col items-center md:justify-center">
 	<h1 class="text-center text-4xl md:text-6xl font-bold text-purple-800 mb-14">
 		Welcome to <Logo />
 	</h1>
@@ -86,7 +85,7 @@
 			>
 				{#if !showSignUp}
 					<button
-						on:click={goToSignUp}
+						on:click={() => (showSignUp = true)}
 						class="w-full rounded bg-purple-500 text-purple-900 text-xl uppercase font-mono font-bold py-2 px-10"
 						>Create an Account</button
 					>
@@ -125,7 +124,7 @@
 								/>
 							</div>
 							<button
-								bind:this={signinSection}
+								use:initCreateAccount
 								type="submit"
 								class="w-full rounded-sm bg-purple-500 text-purple-900 text-xl uppercase font-mono font-bold py-2 px-10"
 								>Sign Up with my email</button
