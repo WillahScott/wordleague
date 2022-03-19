@@ -17,15 +17,29 @@
 	import '../app.css';
 
 	export let path;
-	let scrollToBottom;
+	let scrollToBottom = null;
 
 	user.set(supabase.auth.user());
 
-	supabase.auth.onAuthStateChange((_, session) => {
-		user.set(session?.user);
-		if (session?.user) {
-			// DO STUFF
+	supabase.auth.onAuthStateChange((event, session) => {
+		console.log('session');
+		console.log(session);
+		if (event === 'SIGNED_IN') {
+			user.set(session.user);
+			console.log(`Logged in user: ${session.user.email}`);
+		} else if (event === 'SIGNED_OUT') {
+			user.set(null);
+			console.log(`No user`);
+		} else {
+			console.log('unknown auth state change', event);
 		}
+		// user.set(session?.user);
+		// if (session?.user) {
+		// 	// DO STUFF
+		// 	console.log(`Logged in user: ${session.user.email}`);
+		// } else {
+		// 	console.log(`No user`);
+		// }
 	});
 </script>
 
@@ -35,7 +49,7 @@
 			<Nav />
 		{/if}
 		<slot />
-		<Footer {scrollToBottom} isUser={true} />
+		<Footer bind:scrollToBottom isUser={true} />
 	</div>
 {:else}
 	<Auth {scrollToBottom} />

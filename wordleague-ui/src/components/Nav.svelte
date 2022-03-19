@@ -9,7 +9,6 @@
 	$: name = $user.user_metadata.username || $user.email;
 
 	const logout = () => {
-		console.log('logount');
 		supabase.auth.signOut();
 	};
 </script>
@@ -24,6 +23,6 @@
 		>
 			<span class="text-xl font-bold font-mono lowercase">{name}</span>
 		</div>
-		<!-- <button on:click={logout}>Log Out</button> -->
+		<button on:click={logout}>Log Out</button>
 	{/if}
 </div>
