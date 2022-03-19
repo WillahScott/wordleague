@@ -1,78 +1,13 @@
 <script>
-	import { fly } from 'svelte/transition';
-	import { supabase } from '$lib/supabase';
-	import Logo from './Logo.svelte';
-	// import AppleSignIn from './signin/AppleSignin.svelte';
-	// import GoogleSignIn from './signin/GoogleSignin.svelte';
+	import Logo from '@components/Logo.svelte';
+	import Login from '@components/signin/Login.svelte';
+	import Signup from '@components/signin/Signup.svelte';
 
 	export let footerRef;
 	let showSignUp = false;
-	let email;
-	let password;
-	let username;
-	let emailN;
-	let passwordN;
-
-	let signinError = '';
-	let signupError = '';
-
-	const handleEmailLogin = async () => {
-		signinError = '';
-		if (!email || !password) {
-			signinError = 'Please provide your email and password';
-			return;
-		}
-		try {
-			const { user, session, error } = await supabase.auth.signIn({
-				email: email,
-				password: password
-			});
-			if (error) throw error;
-		} catch (error) {
-			signinError = error.error_description || error.message;
-			console.error(error.error_description || error.message);
-		}
-	};
-
-	// const handleProviderLogin = async (provider) => {
-	// 	try {
-	// 		const { user, session, error } = await supabase.auth.signIn({provider: provider});
-	// 		if (error) throw error;
-	// 	} catch (error) {
-	// 		console.error(error.error_description || error.message);
-	// 	} finally {
-	// 		alert('login in...');
-	// 	}
-	// };
 
 	const scrollToBottom = () => {
 		footerRef.scrollIntoView({ behavior: 'smooth', block: 'end' });
-	};
-
-	const handleCreateEmailAccount = async () => {
-		signupError = '';
-		if (!username || !emailN || !passwordN) {
-			signupError = 'Please provide a username, email, and password';
-			return;
-		}
-		try {
-			const { error } = await supabase.auth.signUp(
-				{
-					email: emailN,
-					password: passwordN
-				},
-				{
-					data: {
-						username: username
-						// potential info about league invites
-					}
-				}
-			);
-			if (error) throw error;
-		} catch (error) {
-			signupError = error.error_description || error.message;
-			console.error(error.error_description || error.message);
-		}
 	};
 </script>
 
@@ -88,58 +23,7 @@
 			</p>
 		</div>
 		<div class="flex flex-col my-16 px-8 w-full">
-			<div
-				class="relative flex flex-col py-4 md:py-8 px-6 w-full border-2 border-purple-700 rounded-3xl"
-			>
-				<p
-					class="text-xl text-purple-700 font-mono self-center absolute -top-3.5 bg-[#2E294E] px-4 rounded-md uppercase"
-				>
-					Sign In
-				</p>
-				<!-- <div
-					class="mt-5 self-center max-w-2xl w-full flex flex-col md:flex-row justify-between items-center"
-				>
-					<GoogleSignIn width={'50px'} height={'50px'} />
-					<AppleSignIn width={'50px'} height={'50px'} />
-				</div> -->
-				<form
-					class="my-6 flex flex-col justify-center md:max-w-xl md:w-full md:self-center"
-					on:submit|preventDefault={handleEmailLogin}
-				>
-					<div class="flex flex-col text-sm mb-1">
-						<input
-							type="email"
-							name="email"
-							id="email"
-							bind:value={email}
-							on:focus={() => (signinError = '')}
-							placeholder="Your email"
-							class=" text-purple-900 font-mono text-lg rounded-sm bg-purple-200 hover:ring-purple-500 focus:ring-purple-500"
-						/>
-						<input
-							type="password"
-							name="password"
-							id="password"
-							bind:value={password}
-							placeholder="Password"
-							class="mt-1 text-purple-900 font-mono text-lg rounded-sm bg-purple-200 hover:ring-purple-500 focus:ring-purple-500"
-						/>
-					</div>
-					<button
-						type="submit"
-						class="w-full rounded-sm bg-purple-500 text-purple-900 text-xl uppercase font-mono font-bold py-2 px-10"
-						>Sign In</button
-					>
-				</form>
-				{#if signinError}
-					<div
-						class="md:max-w-2xl md:self-center w-full flex flex-col items-center"
-						in:fly={{ y: -100, duration: 500 }}
-					>
-						<p class="text-red-800 font-mono text-lg text-center">{signinError}</p>
-					</div>
-				{/if}
-			</div>
+			<Login />
 		</div>
 
 		{#if !showSignUp}
@@ -153,80 +37,7 @@
 			</div>
 		{:else}
 			<div class="flex flex-col my-16 px-8 w-full">
-				<div class="relative flex flex-col py-8 px-6 w-full border-2 border-pink-400 rounded-3xl">
-					<p
-						class="text-xl text-pink-400 font-mono self-center absolute -top-3.5 bg-[#2E294E] px-4 rounded-md uppercase"
-					>
-						Create Account
-					</p>
-					<div class="flex flex-col items-center w-full pb-4">
-						<!-- 
-						<p class="mb-2 text-base md:text-lg text-pink-400 font-mono">
-							You can choose to sign up using one of the following providers...
-						</p>
-						<div
-							class=" self-center max-w-2xl w-full py-3 flex flex-col md:flex-row justify-between items-center"
-						>
-							<GoogleSignIn width={'50px'} height={'50px'} signup />
-							<AppleSignIn width={'50px'} height={'50px'} signup />
-						</div>
-						<p class="mt-8 text-base md:text-lg text-pink-400 font-mono">
-							...or create an account with your username, email, and password:
-						</p>
-						-->
-						<p class="mt-2 text-base md:text-lg text-pink-400 font-mono">
-							Create an account with your username, email, and password:
-						</p>
-
-						<form
-							class="mt-2 flex flex-col justify-center md:max-w-xl md:w-full md:self-center"
-							on:submit|preventDefault={handleCreateEmailAccount}
-						>
-							<div class="flex flex-col">
-								<div class="flex flex-col text-sm mb-1 mt-2">
-									<input
-										type="text"
-										name="username"
-										id="username"
-										bind:value={username}
-										placeholder="Username"
-										class=" text-purple-900 font-mono text-lg rounded-sm bg-purple-200 hover:ring-purple-500 focus:ring-purple-500"
-									/>
-									<input
-										type="email"
-										name="email"
-										id="email"
-										bind:value={emailN}
-										placeholder="Your email"
-										class="mt-1 text-purple-900 font-mono text-lg rounded-sm bg-purple-200 hover:ring-purple-500 focus:ring-purple-500"
-									/>
-									<input
-										type="password"
-										name="password"
-										id="password"
-										bind:value={passwordN}
-										placeholder="Password"
-										class="mt-1 text-purple-900 font-mono text-lg rounded-sm bg-purple-200 hover:ring-purple-500 focus:ring-purple-500"
-									/>
-								</div>
-								<button
-									use:scrollToBottom
-									type="submit"
-									class="w-full rounded-sm bg-pink-400 text-pink-900 text-xl uppercase font-mono font-bold py-2 px-10"
-									>Sign Up with my email</button
-								>
-							</div>
-						</form>
-						{#if signupError}
-							<div
-								class="md:max-w-2xl md:self-center mt-5 w-full flex flex-col items-center"
-								in:fly={{ y: -100, duration: 500 }}
-							>
-								<p class="text-red-800 font-mono text-lg text-center">{signupError}</p>
-							</div>
-						{/if}
-					</div>
-				</div>
+				<Signup {scrollToBottom} />
 			</div>
 		{/if}
 	</div>

@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import confetti from 'canvas-confetti';
 	import { page } from '$app/stores';
-	import { challenge } from '$lib/stores/challenge';
+	import { challenge } from '@stores/challenge';
 
 	import Row from './_row.svelte';
 	import Keyboard from './_keyboard.svelte';

@@ -1,7 +1,20 @@
 <script>
+	// import { supabase } from '$lib/supabase';
+
 	export let width = '20px';
 	export let height = '20px';
     export let signup = false;
+
+	// const handleProviderLogin = async () => {
+	// 	try {
+	// 		const { user, session, error } = await supabase.auth.signIn({provider: google});
+	// 		if (error) throw error;
+	// 	} catch (error) {
+	// 		console.error(error.error_description || error.message);
+	// 	} finally {
+	// 		alert('login in...');
+	// 	}
+	// };
 </script>
 
 <div
