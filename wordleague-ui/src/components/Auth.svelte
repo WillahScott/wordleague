@@ -1,33 +1,41 @@
 <script>
+	import { fly } from 'svelte/transition';
 	import { supabase } from '$lib/supabase';
 	import Logo from './Logo.svelte';
-	import AppleSignIn from './signin/AppleSignin.svelte';
-	import GoogleSignIn from './signin/GoogleSignin.svelte';
+	// import AppleSignIn from './signin/AppleSignin.svelte';
+	// import GoogleSignIn from './signin/GoogleSignin.svelte';
 
 	export let footerRef;
 	let showSignUp = false;
-	let username;
 	let email;
 	let password;
+	let username;
+	let emailN;
+	let passwordN;
+
+	let signinError = '';
+	let signupError = '';
 
 	const handleEmailLogin = async () => {
+		signinError = '';
+		if (!email || !password) {
+			signinError = 'Please provide your email and password';
+			return;
+		}
 		try {
-			loading = true;
 			const { user, session, error } = await supabase.auth.signIn({
 				email: email,
 				password: password
 			});
 			if (error) throw error;
 		} catch (error) {
+			signinError = error.error_description || error.message;
 			console.error(error.error_description || error.message);
-		} finally {
-			alert('welcome back...');
 		}
 	};
 
 	// const handleProviderLogin = async (provider) => {
 	// 	try {
-	// 		loading = true;
 	// 		const { user, session, error } = await supabase.auth.signIn({provider: provider});
 	// 		if (error) throw error;
 	// 	} catch (error) {
@@ -37,17 +45,21 @@
 	// 	}
 	// };
 
-	const initCreateAccount = () => {
+	const scrollToBottom = () => {
 		footerRef.scrollIntoView({ behavior: 'smooth', block: 'end' });
 	};
 
 	const handleCreateEmailAccount = async () => {
+		signupError = '';
+		if (!username || !emailN || !passwordN) {
+			signupError = 'Please provide a username, email, and password';
+			return;
+		}
 		try {
-			loading = true;
 			const { error } = await supabase.auth.signUp(
 				{
-					email: email,
-					password: password
+					email: emailN,
+					password: passwordN
 				},
 				{
 					data: {
@@ -58,9 +70,8 @@
 			);
 			if (error) throw error;
 		} catch (error) {
+			signupError = error.error_description || error.message;
 			console.error(error.error_description || error.message);
-		} finally {
-			alert(`Welcome #{username}!`);
 		}
 	};
 </script>
@@ -101,6 +112,7 @@
 							name="email"
 							id="email"
 							bind:value={email}
+							on:focus={() => (signinError = '')}
 							placeholder="Your email"
 							class=" text-purple-900 font-mono text-lg rounded-sm bg-purple-200 hover:ring-purple-500 focus:ring-purple-500"
 						/>
@@ -119,6 +131,14 @@
 						>Sign In</button
 					>
 				</form>
+				{#if signinError}
+					<div
+						class="md:max-w-2xl md:self-center w-full flex flex-col items-center"
+						in:fly={{ y: -100, duration: 500 }}
+					>
+						<p class="text-red-800 font-mono text-lg text-center">{signinError}</p>
+					</div>
+				{/if}
 			</div>
 		</div>
 
@@ -176,7 +196,7 @@
 										type="email"
 										name="email"
 										id="email"
-										bind:value={email}
+										bind:value={emailN}
 										placeholder="Your email"
 										class="mt-1 text-purple-900 font-mono text-lg rounded-sm bg-purple-200 hover:ring-purple-500 focus:ring-purple-500"
 									/>
@@ -184,19 +204,27 @@
 										type="password"
 										name="password"
 										id="password"
-										bind:value={password}
+										bind:value={passwordN}
 										placeholder="Password"
 										class="mt-1 text-purple-900 font-mono text-lg rounded-sm bg-purple-200 hover:ring-purple-500 focus:ring-purple-500"
 									/>
 								</div>
 								<button
-									use:initCreateAccount
+									use:scrollToBottom
 									type="submit"
 									class="w-full rounded-sm bg-pink-400 text-pink-900 text-xl uppercase font-mono font-bold py-2 px-10"
 									>Sign Up with my email</button
 								>
 							</div>
 						</form>
+						{#if signupError}
+							<div
+								class="md:max-w-2xl md:self-center mt-5 w-full flex flex-col items-center"
+								in:fly={{ y: -100, duration: 500 }}
+							>
+								<p class="text-red-800 font-mono text-lg text-center">{signupError}</p>
+							</div>
+						{/if}
 					</div>
 				</div>
 			</div>
