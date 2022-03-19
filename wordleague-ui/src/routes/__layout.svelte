@@ -7,7 +7,7 @@
 
 	import '../app.css';
 
-	let footerRef = null;
+	let scrollToBottom;
 
 	user.set(supabase.auth.user());
 
@@ -30,9 +30,9 @@
 		<h1>Welcome {user}</h1>
 		<button on:click={logout}>Log Out</button>
 		<slot />
-		<Footer {footerRef} isUser={true} />
+		<Footer {scrollToBottom} isUser={true} />
 	</div>
 {:else}
-	<Auth {footerRef} />
-	<Footer bind:footerRef isUser={false} />
+	<Auth {scrollToBottom} />
+	<Footer bind:scrollToBottom isUser={false} />
 {/if}

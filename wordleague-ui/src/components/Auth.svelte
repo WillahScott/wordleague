@@ -3,12 +3,8 @@
 	import Login from '@components/signin/Login.svelte';
 	import Signup from '@components/signin/Signup.svelte';
 
-	export let footerRef;
+	export let scrollToBottom;
 	let showSignUp = false;
-
-	const scrollToBottom = () => {
-		footerRef.scrollIntoView({ behavior: 'smooth', block: 'end' });
-	};
 </script>
 
 <div class="py-10 relative min-h-screen flex flex-col items-center md:justify-center">

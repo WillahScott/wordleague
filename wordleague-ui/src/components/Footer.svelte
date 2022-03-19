@@ -1,6 +1,9 @@
 <script>
 	export let isUser = false;
-	export let footerRef;
+	export const scrollToBottom = () => {
+		footerRef.scrollIntoView({ behavior: 'smooth', block: 'end' });
+	};
+	let footerRef;
 </script>
 
 <div
