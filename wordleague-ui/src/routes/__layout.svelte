@@ -1,12 +1,22 @@
-<script>
-	import { supabase } from '$lib/supabase';
-	import Auth from '../components/Auth.svelte';
-	import Logo from '../components/Logo.svelte';
-	import Footer from '../components/Footer.svelte';
-	import { user } from '$lib/stores/auth';
+<script context="module">
+	export async function load({ url }) {
+		console.log(url.pathname);
+		if (url.pathname === '/something') {
+			console.log('yeah!');
+		}
+		return { props: { path: url.pathname } };
+	}
+</script>
 
+<script>
+	import { supabase } from '@lib/supabase';
+	import { user } from '@lib/stores/auth';
+	import Auth from '@components/Auth.svelte';
+	import Nav from '@components/Nav.svelte';
+	import Footer from '@components/Footer.svelte';
 	import '../app.css';
 
+	export let path;
 	let scrollToBottom;
 
 	user.set(supabase.auth.user());
@@ -17,18 +27,13 @@
 			// DO STUFF
 		}
 	});
-
-	const logout = () => {
-		console.log('logount');
-		supabase.auth.signOut();
-	};
 </script>
 
 {#if $user}
 	<div>
-		<Logo />
-		<h1>Welcome {user}</h1>
-		<button on:click={logout}>Log Out</button>
+		{#if path !== '/'}
+			<Nav />
+		{/if}
 		<slot />
 		<Footer {scrollToBottom} isUser={true} />
 	</div>
