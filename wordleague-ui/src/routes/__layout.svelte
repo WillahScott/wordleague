@@ -1,9 +1,5 @@
 <script context="module">
 	export async function load({ url }) {
-		console.log(url.pathname);
-		if (url.pathname === '/something') {
-			console.log('yeah!');
-		}
 		return { props: { path: url.pathname } };
 	}
 </script>
@@ -11,7 +7,7 @@
 <script>
 	import { supabase } from '@lib/supabase';
 	import { user } from '@lib/stores/auth';
-	import Auth from '@components/Auth.svelte';
+	import SignIn from '@components/SignIn.svelte';
 	import Nav from '@components/Nav.svelte';
 	import Footer from '@components/Footer.svelte';
 	import '../app.css';
@@ -52,6 +48,6 @@
 		<Footer bind:scrollToBottom isUser={true} />
 	</div>
 {:else}
-	<Auth {scrollToBottom} />
+	<SignIn {scrollToBottom} />
 	<Footer bind:scrollToBottom isUser={false} />
 {/if}
