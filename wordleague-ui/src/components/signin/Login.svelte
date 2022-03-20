@@ -1,6 +1,7 @@
 <script>
     import { fly } from 'svelte/transition';
 	import { supabase } from '@lib/supabase';
+	import { userStore } from '@lib/stores/auth';
 	// import AppleSignIn from '@components/signin/AppleSignin.svelte';
 	// import GoogleSignIn from '@components/signin/GoogleSignin.svelte';
 
@@ -20,10 +21,13 @@
 				password: password
 			});
 			if (error) throw error;
+            else {
+                userStore.set(user)
+            }
 		} catch (error) {
 			signinError = error.error_description || error.message;
 			console.error(error.error_description || error.message);
-		}
+		} 
 	};
 </script>
 

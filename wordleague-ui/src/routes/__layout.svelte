@@ -6,7 +6,7 @@
 
 <script>
 	import { supabase } from '@lib/supabase';
-	import { user } from '@lib/stores/auth';
+	import { userStore } from '@lib/stores/auth';
 	import SignIn from '@components/SignIn.svelte';
 	import Nav from '@components/Nav.svelte';
 	import Footer from '@components/Footer.svelte';
@@ -15,16 +15,16 @@
 	export let path;
 	let scrollToBottom = null;
 
-	user.set(supabase.auth.user());
+	userStore.set(supabase.auth.user());
 
 	supabase.auth.onAuthStateChange((event, session) => {
 		console.log('session');
 		console.log(session);
 		if (event === 'SIGNED_IN') {
-			user.set(session.user);
+			userStore.set(session.user);
 			console.log(`Logged in user: ${session.user.email}`);
 		} else if (event === 'SIGNED_OUT') {
-			user.set(null);
+			userStore.set(null);
 			console.log(`No user`);
 		} else {
 			console.log('unknown auth state change', event);
@@ -39,7 +39,7 @@
 	});
 </script>
 
-{#if $user}
+{#if $userStore}
 	<div>
 		{#if path !== '/'}
 			<Nav />

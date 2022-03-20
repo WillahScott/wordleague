@@ -1,23 +1,15 @@
 <script>
-	import { supabase } from '@lib/supabase';
-	import { user } from '@lib/stores/auth';
-
+	import { userStore, logout } from '@lib/stores/auth';
 	import Logo from '@components/Logo.svelte';
 
-	// console.log($user);
-
-	$: name = $user.user_metadata.username || $user.email;
-
-	const logout = () => {
-		supabase.auth.signOut();
-	};
+	$: name = $userStore.user_metadata.username || $userStore.email;
 </script>
 
 <div class="w-full py-2 flex flex-row justify-center">
 	<a href="/">
 		<Logo />
 	</a>
-	{#if user}
+	{#if userStore}
 		<div
 			class="bg-pink-400 text-purple-800 rounded-full mx-8 px-3 flex justify-center items-center hover:cursor-pointer"
 		>
