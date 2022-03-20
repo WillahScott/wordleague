@@ -7,7 +7,7 @@
 <script>
 	import { supabase } from '@lib/supabase';
 	import { userStore } from '@lib/stores/auth';
-	import SignIn from '@components/SignIn.svelte';
+	import Auth from '@components/Auth.svelte';
 	import Nav from '@components/Nav.svelte';
 	import Footer from '@components/Footer.svelte';
 	import '../app.css';
@@ -48,6 +48,6 @@
 		<Footer bind:scrollToBottom isUser={true} />
 	</div>
 {:else}
-	<SignIn {scrollToBottom} />
+	<Auth {scrollToBottom} />
 	<Footer bind:scrollToBottom isUser={false} />
 {/if}
