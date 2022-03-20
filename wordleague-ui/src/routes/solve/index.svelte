@@ -122,13 +122,6 @@
 <svelte:window on:keydown={handleKeydown} />
 
 <div class="py-10 relative min-h-screen flex flex-col items-center">
-	<a href="/">
-		<h1
-			class="text-center text-4xl font-bold mb-4 px-1 py-0 m-0 border-2 border-[#B43E8F] bg-[#14213D] "
-		>
-			<span class="text-[#B43E8F]">Word</span><span class="text-purple-300">League</span>
-		</h1>
-	</a>
 
 	{#if loading}
 		<p class="text-[#B43E8F] text-2xl font-serif py-20">Loading challenge...</p>

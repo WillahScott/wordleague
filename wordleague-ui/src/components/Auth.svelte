@@ -9,7 +9,7 @@
 
 <div class="py-10 relative min-h-screen flex flex-col items-center md:justify-center">
 	<h1 class="text-center text-4xl md:text-6xl font-bold text-purple-800 mb-14">
-		Welcome to <Logo />
+		Welcome to <Logo isLarge={true} />
 	</h1>
 
 	<div class="flex-grow flex flex-col items-center text-2xl text-purple-900">

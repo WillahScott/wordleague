@@ -4,10 +4,10 @@
 	$: textClasses = isLarge ? 'text-4xl md:text-6xl' : 'text-2xl md:text-4xl';
 </script>
 
-<div>
+<div class="inline">
 	<h1
-		class={`inline text-center font-bold mb-4 px-1 py-0 m-0 border-2 border-[#B43E8F] bg-[#14213D] ${textClasses}`}
+		class={`inline font-sans font-bold md:font-semibold text-center mb-4 px-1 py-0 m-0 border border-purple-900 bg-purple-700 text-purple-200 ${textClasses}`}
 	>
-		<span class="text-[#B43E8F]">Word</span><span class="text-purple-300">League</span>
+		WordLeague
 	</h1>
 </div>

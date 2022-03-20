@@ -20,22 +20,20 @@
 	supabase.auth.onAuthStateChange((event, session) => {
 		console.log('session');
 		console.log(session);
-		if (event === 'SIGNED_IN') {
+
+		if (session?.user) {
 			userStore.set(session.user);
+		} else {
+			userStore.set(null);
+		}
+
+		if (event === 'SIGNED_IN') {
 			console.log(`Logged in user: ${session.user.email}`);
 		} else if (event === 'SIGNED_OUT') {
-			userStore.set(null);
 			console.log(`No user`);
 		} else {
 			console.log('unknown auth state change', event);
 		}
-		// user.set(session?.user);
-		// if (session?.user) {
-		// 	// DO STUFF
-		// 	console.log(`Logged in user: ${session.user.email}`);
-		// } else {
-		// 	console.log(`No user`);
-		// }
 	});
 </script>
 

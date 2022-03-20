@@ -1,16 +1,26 @@
 <script>
 	import { fly } from 'svelte/transition';
-    import { beforeNavigate } from '$app/navigation';
+	import { beforeNavigate } from '$app/navigation';
 	import { userStore, logout } from '@lib/stores/auth';
+	import Logo from '@components/Logo.svelte';
 
 	let isVisible = false;
-    beforeNavigate(() => isVisible = false);
+	beforeNavigate(() => (isVisible = false));
 </script>
 
 <div
-	class={`flex flex-col items-center transition ease-in-out text-purple-800 text-xl font-mono ${isVisible ? 'py-5' : ''}`}
+	class={`flex flex-col items-center transition ease-in-out text-purple-800 text-xl font-mono ${
+		isVisible ? 'py-5' : ''
+	}`}
 >
 	{#if isVisible}
+		<a
+			href="/"
+			class="my-4 px-5 py-1"
+			transition:fly={{ y: -300, duration: 500 }}
+		>
+			<Logo />
+		</a>
 		<a
 			href="/solve"
 			class="my-2 px-5 py-1 bg-purple-300 rounded"
